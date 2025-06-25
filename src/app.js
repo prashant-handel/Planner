@@ -1,19 +1,22 @@
 const express = require('express');
-const mongoose = require('mongoose');
 require('dotenv').config();
+const connectDB = require('./config/database.js');
+const authRouter = require('./routes/auth.js');
+const cookieParser = require('cookie-parser');
+const taskRouter = require('./routes/task.js');
 
 PORT = process.env.PORT;
-DB_PASSWORD = process.env.DB_PASSWORD;
 
 const app = express();
+app.use(express.json());
+app.use(cookieParser());
 
-const connectDB = async () => {
-    await mongoose.connect(`mongodb+srv://prashanthandel2501:${DB_PASSWORD}@new-cluster.btwgta4.mongodb.net/plannerDB`);
-}
+app.use('/auth', authRouter);
+app.use('/task', taskRouter);
 
 connectDB().then(() => {
     app.listen(8080, () => {
-        console.log(`App is listening on port ${PORT}`)
+        console.log(`App is listening on port ${PORT}`);
     })
 }).catch((err) => {
     console.log('MongoDB connection error:', err);

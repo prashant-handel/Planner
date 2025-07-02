@@ -52,6 +52,16 @@ const userSchema = new mongoose.Schema({
             message: '{VALUE} is not supported!'
         }
 
+    },
+    color: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function (v) {
+                return /^#([0-9A-Fa-f]{6})$/.test(v);
+            },
+            message: props => `${props.value} is not a valid hex color!`
+        }
     }
 }, { timestamps: true });
 

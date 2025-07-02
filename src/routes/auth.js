@@ -6,6 +6,9 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const userAuth = require('../middlewares/auth.js')
 
+const avatarColors = ["#FF6B6B","#FFB400","#6BCB77","#4D96FF","#845EC2","#FF5E78","#00C9A7","#FFC75F","#F9F871","#C34A36","#FF3CAC","#38B6FF","#FF9F1C","#8AC926","#D81159","#00F5D4","#FF006E","#8338EC","#F15BB5","#00BBF9"];
+
+
 
 router.post('/signup', async (req, res) => {
     try {
@@ -16,7 +19,8 @@ router.post('/signup', async (req, res) => {
         
         const payload = {
             ...userObj,
-            password: passwordHash
+            password: passwordHash,
+            color: avatarColors[Math.floor(Math.random() * 20)]
         };
 
         const user = new User(payload);

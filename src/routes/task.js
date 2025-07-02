@@ -1,7 +1,7 @@
 const express = require('express');
 const Task = require('../models/task.js');
 const userAuth = require('../middlewares/auth.js');
-const validateTaskInput = require('../utils/validation.js');
+const { validateTaskInput } = require('../utils/validation.js');
 const getUserIdFromToken = require('../utils/getUserIdFromToken.js');
 
 const router = express.Router();
@@ -28,13 +28,14 @@ router.post('/create', userAuth, async (req, res) => {
 router.get('/allTasks', userAuth, async (req, res) => {
     try {
         const userId = getUserIdFromToken(req);
-        console.log('userId: ', userId);
         const tasks = await Task.find({
             $or: [
                 { assigner: userId },
                 { assignees: { $in: [userId]} }
             ]
-        });
+        })
+        .populate('assigner', 'firstName')
+        .populate('assignees', ['firstName', 'color']);
 
         if(!tasks) {
             return res.status(404).json({
@@ -64,9 +65,9 @@ router.patch('/update', userAuth, async (req, res) => {
             });
         }
 
-        validateTaskInput(req);
+        await validateTaskInput(req, res);
 
-        const updatedTask = await Task.findByIdAndUpdate(id, req.body);
+        const updatedTask = await Task.findByIdAndUpdate(_id, req.body);
 
         if(!updatedTask) {
             return res.status(400).json({

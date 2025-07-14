@@ -16,6 +16,8 @@ const validateTaskInput = async (req, res) => {
     const requiredFields = ['name', 'dueDate', 'progress', 'priority', 'assigner'];
     const hasAllReqFields = requiredFields.every(field => data.hasOwnProperty(field));
 
+    console.log('hasAllReqFields', hasAllReqFields);
+
     if(!hasAllReqFields) {
         return res.status(400).json({
             status: false,

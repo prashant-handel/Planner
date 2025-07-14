@@ -52,7 +52,6 @@ router.get('/searchExpectSelf', userAuth, async (req, res) => {
                 { email: { $regex: regex } }
             ]
         });
-        console.log(users);
 
         if (!users?.length) {
             return res.status(404).json({

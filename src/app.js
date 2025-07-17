@@ -11,7 +11,7 @@ PORT = process.env.PORT;
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:4500', 'https://planner-client-omega.vercel.app/'],
+  origin: ['http://localhost:4500', 'https://planner-client-omega.vercel.app'],
   credentials: true,
 }));
 app.use(express.json());

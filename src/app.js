@@ -10,7 +10,10 @@ const userRouter = require('./routes/user.js');
 PORT = process.env.PORT;
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:4500', 'https://planner-client-omega.vercel.app/'],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 
